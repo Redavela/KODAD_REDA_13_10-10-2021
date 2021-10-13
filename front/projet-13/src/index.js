@@ -6,10 +6,11 @@ import App from './App';
 import {applyMiddleware, createStore} from "redux";
 import {composeWithDevTools} from "redux-devtools-extension";
 import thunk from "redux-thunk";
+import rootReducer from './reducers'
 
 const store = createStore(
-  // rootReducer,
-  // enlever en mode prod
+  rootReducer,
+  
   composeWithDevTools(applyMiddleware(thunk))
 )
 ReactDOM.render(
