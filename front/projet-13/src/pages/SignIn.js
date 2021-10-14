@@ -4,20 +4,16 @@ import Navigation from '../components/Navigation';
 import SectionSignIn from '../components/SectionSignIn';
 import {useHistory} from 'react-router-dom';
 import {useSelector} from 'react-redux';
+import {login} from "../actions/user.action";
 
-const SignIn = () => {
- let history = useHistory ();
+const SignIn = props => {
   const isConnected = useSelector (state => state.userReducer);
-//   useEffect(() => {
-//     if(isConnected.userName !== undefined){
-//         history.push("/user")
-//     }
-// }, [])
+
   return (
     <div>
-      <Navigation />
-      <SectionSignIn history={history} isConnected={isConnected} />
-      <Footer />
+      <Navigation props={props}  isConnected={isConnected}/>
+      <SectionSignIn props={props} isConnected={isConnected} />
+        <Footer />
     </div>
   );
 };

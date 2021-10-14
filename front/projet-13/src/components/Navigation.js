@@ -1,22 +1,26 @@
 import React from 'react';
 import logo from '../assets/img/argentBankLogo.png';
 import {NavLink} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {logout} from '../actions/user.action';
 
-
-const Navigation = () => {
-  const isConnected = useSelector (state => state.userReducer);
-  console.log ('navigation isConnected.username : ', isConnected.userName);
-  const dispatch = useDispatch()
-  const logOut = () => {
-    dispatch(logout)
-  }
+const Navigation = items => {
+  const dispatch = useDispatch();
+  const logOut = e => {
+    e.preventDefault ();
+    let logoutDispatch = dispatch(logout());
+    if (logoutDispatch) {
+      console.log ('déconnexion : ', items.isConnected.user.userName);
+      items.props.history.push ({
+        pathname: '/signin',
+      });
+    }
+  };
   return (
     <div>
-      {isConnected.userName !== undefined
+      {items.isConnected.user !== undefined
         ? <nav className="main-nav">
-            <NavLink className="main-nav-logo" exact href="/">
+            <NavLink className="main-nav-logo" exact to="/">
               <img
                 className="main-nav-logo-image"
                 src={logo}
@@ -25,11 +29,15 @@ const Navigation = () => {
               <h1 className="sr-only">Argent Bank</h1>
             </NavLink>
             <div>
-              <NavLink className="main-nav-item" href="/user">
+              <NavLink className="main-nav-item" to="/user">
                 <i className="fa fa-user-circle" />
-                Tony
+                {items.isConnected.user.userName}
               </NavLink>
-              <NavLink className="main-nav-item" href="/" onClick={logOut}>
+              <NavLink
+                className="main-nav-item"
+                to="/"
+                onClick={e => logOut (e)}
+              >
                 <i className="fa fa-sign-out" />
                 Sign Out
               </NavLink>

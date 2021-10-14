@@ -3,24 +3,37 @@ import {useDispatch} from 'react-redux';
 import {Redirect, NavLink} from 'react-router-dom';
 import {login} from '../actions/user.action';
 
-const SectionSignIn = () => {
+const SectionSignIn = (props) => {
   const [userName, setUserName] = useState ('');
   const [password, setPassword] = useState ('');
+  const [error, setError] = useState ('');
   const dispatch = useDispatch ();
   const handleForm = e => {
     e.preventDefault ();
     if (userName && password !== '') {
       let data = {userName, password};
-      dispatch(login(data));
-     
+      let loginDispatch =  dispatch(login(data))
+      console.log('loginDispatch', loginDispatch)
+      if(loginDispatch) {
+        props.props.history.push({
+          pathname: '/user',
+        })
+      }
+      else{
+        setError('Erreur id incorrect')
+      }
+    }
+    else{
+      setError('Champs vide')
     }
   };
+
   return (
     <main className="main bg-dark">
       <section className="sign-in-content ">
         <i className="fa fa-user-circle sign-in-icon" />
         <h1>Sign In</h1>
-        <form onSubmit={(e) => handleForm(e)}>
+        <form >
           <div className="input-wrapper">
             <label htmlFor="username">Username</label>
             <input
@@ -41,7 +54,8 @@ const SectionSignIn = () => {
             <input type="checkbox" id="remember-me" />
             <label htmlFor="remember-me">Remember me</label>
           </div>
-          <button className="sign-in-button">Sign In</button>
+          <button className="sign-in-button" onClick={handleForm}>Sign In</button>
+          {error && <div>{error}</div>}
         </form>
       </section>
     </main>

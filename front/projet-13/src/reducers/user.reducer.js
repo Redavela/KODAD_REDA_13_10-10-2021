@@ -2,13 +2,13 @@ import {LOGIN, LOGOUT} from "../actions/user.action";
 
 const initialState = {}
 
-export default function postReducer(state = initialState, action) {
+export default function userReducer(state = initialState, action) {
     switch (action.type) {
         case LOGIN:
             console.log(state, action.payload);
-            return action.payload
+            return {...state, user: action.payload}
         case LOGOUT:
-            return {...state}
+            return state = {}
         default:
             return state
     }
