@@ -1,27 +1,21 @@
-import React, {useState, useEffect} from 'react';
-import {useDispatch} from 'react-redux';
-import {Redirect, NavLink} from 'react-router-dom';
-import {login} from '../actions/user.action';
+import React, {useState} from 'react';
+import { useDispatch } from 'react-redux';
+import { login} from '../slices/userSlice'
+import { logUser } from '../providers/userProvider';
 
 const SectionSignIn = (props) => {
   const [userName, setUserName] = useState ('');
   const [password, setPassword] = useState ('');
   const [error, setError] = useState ('');
-  const dispatch = useDispatch ();
-  const handleForm = e => {
+  const dispatch = useDispatch()
+
+
+  const handleForm = async e => {
+
     e.preventDefault ();
-    if (userName && password !== '') {
-      let data = {userName, password};
-      let loginDispatch =  dispatch(login(data))
-      console.log('loginDispatch', loginDispatch)
-      if(loginDispatch) {
-        props.props.history.push({
-          pathname: '/user',
-        })
-      }
-      else{
-        setError('Erreur id incorrect')
-      }
+    if (userName && password) {
+    //  dispatch(login())
+    logUser(userName, password)
     }
     else{
       setError('Champs vide')
@@ -54,7 +48,7 @@ const SectionSignIn = (props) => {
             <input type="checkbox" id="remember-me" />
             <label htmlFor="remember-me">Remember me</label>
           </div>
-          <button className="sign-in-button" onClick={handleForm}>Sign In</button>
+          <button className="sign-in-button" onClick={(handleForm)}>Sign In</button>
           {error && <div>{error}</div>}
         </form>
       </section>
