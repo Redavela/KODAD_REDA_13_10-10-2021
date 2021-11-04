@@ -1,12 +1,19 @@
 import React from 'react';
 import logo from '../assets/img/argentBankLogo.png';
 import {NavLink} from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../slices/userSlice';
 
-const Navigation = props => {
- 
+const Navigation = () => {
+  const userConnected = useSelector((state) => state.user.connected)
+  const dispatch = useDispatch()
+  const handleDisconnect =()=>{
+    dispatch(logout())
+    sessionStorage.removeItem('userToken')
+  }
   return (
     <div>
-      {false
+      {userConnected
         ? <nav className="main-nav">
             <NavLink className="main-nav-logo" exact to="/">
               <img
@@ -24,6 +31,7 @@ const Navigation = props => {
               <NavLink
                 className="main-nav-item"
                 to="/"
+                onClick={handleDisconnect}
               >
                 <i className="fa fa-sign-out" />
                 Sign Out

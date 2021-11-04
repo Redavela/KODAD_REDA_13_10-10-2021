@@ -1,14 +1,11 @@
-export const logUser = async(userName, password) => {
+export const logUser = async(email, password) => {
   const url = 'http://localhost:3001/api/v1/user/login';
 
   const settings = {
     method: 'POST',
-    body: JSON.stringify({
-      email: userName,
-      password: password,
-    }),
+    body: JSON.stringify({ email, password }),
     headers: {
-      Accept: 'application/json',
+      'Accept': 'application/json',
       'Content-Type': 'application/json',
     },
   };

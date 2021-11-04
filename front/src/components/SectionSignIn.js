@@ -1,21 +1,40 @@
-import React, {useState} from 'react';
-import { useDispatch } from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { login} from '../slices/userSlice'
 import { logUser } from '../providers/userProvider';
-
+import { useHistory } from "react-router-dom";
+import { Redirect } from 'react-router';
 const SectionSignIn = (props) => {
-  const [userName, setUserName] = useState ('');
-  const [password, setPassword] = useState ('');
-  const [error, setError] = useState ('');
+  const userConnected = useSelector((state) => state.user.connected)
+  let history = useHistory()
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const dispatch = useDispatch()
-
-
+  
+  
+  useEffect(()=>{
+    setError('')
+  },[email,password])
+  
+ 
+  if(userConnected){
+    return <Redirect to='/'/>
+  }
   const handleForm = async e => {
-
-    e.preventDefault ();
-    if (userName && password) {
-    //  dispatch(login())
-    logUser(userName, password)
+    
+    e.preventDefault();
+    if (email && password) {
+      const responseLogUser = await logUser(email, password)
+      console.log(responseLogUser);
+      if(responseLogUser.status!== 200){
+        setError(`L'utilisateur ${email} n'éxiste pas`)
+      }else{
+        const token = responseLogUser.body.token
+        dispatch(login(token))
+        sessionStorage.setItem('userToken', token)
+        history.push("/user");
+      }
     }
     else{
       setError('Champs vide')
@@ -29,11 +48,12 @@ const SectionSignIn = (props) => {
         <h1>Sign In</h1>
         <form >
           <div className="input-wrapper">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="email">email</label>
             <input
+              style={{backgroundColor: error ? 'red' : ''}}
               type="text"
-              id="username"
-              onChange={e => setUserName (e.target.value)}
+              id="email"
+              onChange={e => setEmail (e.target.value)}
             />
           </div>
           <div className="input-wrapper">

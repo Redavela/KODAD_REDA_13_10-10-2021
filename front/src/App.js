@@ -6,9 +6,12 @@ import SignIn from './pages/SignIn';
 import Dashboard from './pages/Dashboard';
 import Footer from './components/Footer';
 import Navigation from './components/Navigation';
+import { ManageUser } from './providers/storageProvider';
+
+
 
 function App () {
-  
+  ManageUser()
   return (
     <div className="App">
       <BrowserRouter>
