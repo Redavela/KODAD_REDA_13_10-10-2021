@@ -1,13 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { findProfileUser, updateProfileUser } from '../providers/userProvider';
 
 const SectionDashboard = ()=> {
- 
- 
+  const token = useSelector((state)=> state.user.token)
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  
+  useEffect(()=>{
+
+    (async () => {
+      const profileUser = await findProfileUser(token);
+      // console.log(profileUser)
+      setFirstName(profileUser.body.firstName)
+      setLastName(profileUser.body.lastName)
+    })();
+  },[])
+  const handleUpdateUser = async () => {
+    if (firstName.length > 2 && lastName.length > 2) {
+      const result = await updateProfileUser(token,firstName,lastName)
+      console.log(result.status)
+    } else {
+   
+    }
+
+  }
+  
   return (
     <main className="main bg-dark">
       <div className="header">
-        <h1>Welcome back<br /></h1>
-        <button className="edit-button">Edit Name</button>
+        <h1>Welcome back<br />{firstName} {lastName}</h1>
+        <input type='text' placeholder={firstName} onChange={(e)=>setFirstName(e.target.value)}/>
+        <input type='text' placeholder={lastName} onChange={(e)=>setLastName(e.target.value)}/>
+        <button className="edit-button" onClick={handleUpdateUser}>Edit Name</button>
       </div>
       <h2 className="sr-only">Accounts</h2><section className="account">
         <div className="account-content-wrapper">

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login} from '../slices/userSlice'
-import { logUser } from '../providers/userProvider';
+import { findProfileUser, logUser } from '../providers/userProvider';
 import { useHistory } from "react-router-dom";
 import { Redirect } from 'react-router';
 const SectionSignIn = (props) => {
@@ -31,7 +31,13 @@ const SectionSignIn = (props) => {
         setError(`L'utilisateur ${email} n'éxiste pas`)
       }else{
         const token = responseLogUser.body.token
-        dispatch(login(token))
+        (async () => {
+          const profileUser = await findProfileUser(token);
+          dispatch(login({
+              token,
+              info: profileUser.body
+          }))
+        })();
         sessionStorage.setItem('userToken', token)
         history.push("/user");
       }

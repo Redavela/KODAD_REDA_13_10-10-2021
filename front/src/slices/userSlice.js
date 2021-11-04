@@ -5,15 +5,18 @@ export const userSlice = createSlice({
   initialState: {
     connected: false,
     token: null,
+    info: {},
   },
   reducers: { 
-    login: (state, token) => {
+    login: (state, data) => {
       state.connected = true
-      state.token = token.payload
+      state.token = data.payload.token
+      state.info = data.payload.info
     },
     logout: state => {
       state.connected = false
       state.token = null
+      state.info = {}
     }
   },
 })

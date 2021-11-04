@@ -3,7 +3,7 @@ import SectionSignIn from '../components/SectionSignIn';
 
 
 
-const SignIn = props => {
+const SignIn = () => {
 
   return (
     <SectionSignIn />
