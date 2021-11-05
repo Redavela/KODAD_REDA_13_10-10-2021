@@ -26,11 +26,11 @@ const SectionSignIn = (props) => {
     e.preventDefault();
     if (email && password) {
       const responseLogUser = await logUser(email, password)
-      console.log(responseLogUser);
+      // console.log(responseLogUser);
+      const token = responseLogUser.body.token
       if(responseLogUser.status!== 200){
         setError(`L'utilisateur ${email} n'éxiste pas`)
       }else{
-        const token = responseLogUser.body.token
         (async () => {
           const profileUser = await findProfileUser(token);
           dispatch(login({
