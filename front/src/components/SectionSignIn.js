@@ -32,7 +32,7 @@ const SectionSignIn = (props) => {
           info: profileUser.body
         }))
         sessionStorage.setItem('userToken', token)
-        history.push("/user");
+        history.push("/profile");
         toast.success(`Connexion effectuée avec succès`)
       }
     }

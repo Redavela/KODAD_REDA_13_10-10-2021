@@ -24,7 +24,7 @@ const Navigation = () => {
               <h1 className="sr-only">Argent Bank</h1>
             </NavLink>
             <div className='main-nav-user'>
-              <NavLink className="main-nav-item" to="/user">
+              <NavLink className="main-nav-item" to="/profile">
                 <i className="fa fa-user-circle" />
                 <p>{user.info.firstName}</p>
               </NavLink>

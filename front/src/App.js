@@ -24,7 +24,7 @@ function App () {
         <Switch>
           <Route exact path="/" component={Accueil} />
           {userConnected 
-            ? <Route exact path="/user" component={Dashboard} /> 
+            ? <Route exact path="/profile" component={Dashboard} /> 
             : <Route exact path="/signin" component={SignIn} />
           }
           <Route component={Error} />
