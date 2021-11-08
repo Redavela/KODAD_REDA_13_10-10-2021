@@ -32,7 +32,10 @@ body {
 }
 
 .bg-dark {
-  background-color: #12002b;
+  background-color: #d3d5df;
+  height: 800px;
+  border-top: 1px solid grey;
+  border-bottom: 1px solid grey;
 }
 
 .sr-only {
@@ -48,15 +51,21 @@ body {
   width: 1px !important;
   white-space: nowrap !important; /* 3 */
 }
+.main-nav-user{
+ display: flex;
+ flex-direction: row;
+}
 
 .main-nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 20px;
+  padding: 10px 20px;
+  background-color: #f6f6f6;
 }
 
 .main-nav a {
+  align-items: center;
   font-weight: bold;
   color: #2c3e50;
 }
@@ -65,14 +74,27 @@ body {
   color: #42b983;
 }
 
+.fa{
+  border-radius: 50px;
+  margin-right: 5px;
+  font-size: 31px;
+}
+
+.fa-user-circle{
+  color: #d3d5df;
+  background-color: grey;
+
+}
 .main-nav-item {
+  display: flex;
+  flex-direction: row;
   text-decoration: none;
   margin-right: 0.5rem;
 }
 
-.main-nav-item:hover {
+/* .main-nav-item:hover {
   text-decoration: underline;
-}
+} */
 
 .main-nav-logo {
   display: flex;
@@ -174,8 +196,9 @@ body {
   font-size: 1.1rem;
   font-weight: bold;
   margin-top: 1rem;
-  border-color: #00bc77;
-  background-color: #00bc77;
+  border-radius:5px;
+  border-color: #7451eb;
+  background-color: #7451eb;
   color: #fff;
 }
 
@@ -184,8 +207,8 @@ body {
   background-color: white;
   width: 300px;
   margin: 0 auto;
-  margin-top: 3rem;
-  padding: 2rem;
+  margin-top: 8rem;
+  padding:3rem;
 }
 
 .sign-in-icon {
@@ -212,8 +235,10 @@ body {
 }
 
 .input-wrapper input {
+  border-radius:5px;
   padding: 5px;
   font-size: 1.2rem;
+  border: 1px solid #abadb3;
 }
 
 .footer {
@@ -266,16 +291,23 @@ body {
 }
 
 .edit-button {
-  border-color: #00bc77;
-  background-color: #00bc77;
-  color: #fff;
+  border-color: #7451eb;
+  background-color: #fff;
+  border-radius:5px;
+  color: #7451eb;
   font-weight: bold;
-  padding: 10px;
+  padding: 7px 20px;
+  margin: 12px -6px 0 16px;
+  
 }
 
 .header {
-  color: #fff;
+  color: #000;
   margin-bottom: 2rem;
+}
+.header h1 {
+  margin: 0;
+  padding-top: 30px;
 }
 
 .transaction-button {
@@ -285,8 +317,9 @@ body {
   font-size: 1.1rem;
   font-weight: bold;
   margin-top: 1rem;
-  border-color: #00bc77;
-  background-color: #00bc77;
+  border-color: #7451eb;
+  background-color: #7451eb;
+  border-radius:5px;
   color: #fff;
 }
 
@@ -302,4 +335,24 @@ body {
   .transaction-button {
     width: 200px;
   }
+}
+
+.input-user{
+  border-radius: 3px;
+  border: 1px solid #abadb3;
+  width: 200px;
+  padding: 10px;
+  margin-left: 11px; 
+  margin-top: 10px;
+}
+
+.error, span{
+  height: 450px;
+  font-size: 50px;
+  padding-top: 200px;
+}
+
+.error>p{
+  font-size: 20px;
+  color: #abadb3;
 }

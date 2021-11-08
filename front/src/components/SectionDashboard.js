@@ -1,38 +1,44 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { findProfileUser, updateProfileUser } from '../providers/userProvider';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateProfileUser } from '../providers/userProvider';
+import { toast } from 'react-toastify';
+import { update } from '../slices/userSlice';
 
 const SectionDashboard = ()=> {
   const token = useSelector((state)=> state.user.token)
+  const profileUser = useSelector((state)=> state.user.info)
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
-  
+  const dispatch = useDispatch()
   useEffect(()=>{
+      setFirstName(profileUser.firstName)
+      setLastName(profileUser.lastName)
+  },[profileUser])
 
-    (async () => {
-      const profileUser = await findProfileUser(token);
-      // console.log(profileUser)
-      setFirstName(profileUser.body.firstName)
-      setLastName(profileUser.body.lastName)
-    })();
-  },[])
   const handleUpdateUser = async () => {
     if (firstName.length > 2 && lastName.length > 2) {
       const result = await updateProfileUser(token,firstName,lastName)
-      console.log(result.status)
+      dispatch(update(result.body))
+      toast.success('Le changement à bien été pris en compte')
     } else {
-   
+      toast.warning('Chaque champ doit comporter au moins 3 lettres...')
     }
-
   }
   
+  const handleCancel = () =>{
+    setLastName('') 
+    setFirstName('')
+  }
   return (
     <main className="main bg-dark">
       <div className="header">
         <h1>Welcome back<br />{firstName} {lastName}</h1>
-        <input type='text' placeholder={firstName} onChange={(e)=>setFirstName(e.target.value)}/>
-        <input type='text' placeholder={lastName} onChange={(e)=>setLastName(e.target.value)}/>
-        <button className="edit-button" onClick={handleUpdateUser}>Edit Name</button>
+        <input type='text' className='input-user' placeholder={firstName} onChange={(e)=>setFirstName(e.target.value)}/>
+        <input type='text' className='input-user' placeholder={lastName} onChange={(e)=>setLastName(e.target.value)}/>
+        <div className='section-button'>
+        <button className="save edit-button" onClick={handleUpdateUser}>Save</button>
+        <button className="cancel edit-button" onClick={handleCancel}>Cancel</button>
+        </div>
       </div>
       <h2 className="sr-only">Accounts</h2><section className="account">
         <div className="account-content-wrapper">

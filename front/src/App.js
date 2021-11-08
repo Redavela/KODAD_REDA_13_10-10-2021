@@ -1,5 +1,7 @@
 import './css/App.css';
 import {Switch, BrowserRouter, Route} from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Accueil from './pages/Accueil';
 import Error from './pages/Error';
 import SignIn from './pages/SignIn';
@@ -8,6 +10,7 @@ import Footer from './components/Footer';
 import Navigation from './components/Navigation';
 import { ManageUser } from './providers/storageProvider';
 import { useSelector } from 'react-redux';
+
 
 
 
@@ -28,6 +31,7 @@ function App () {
         </Switch>
       </BrowserRouter>
       <Footer/>
+      <ToastContainer />
     </div>
   );
 }

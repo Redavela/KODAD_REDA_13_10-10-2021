@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../slices/userSlice';
 
 const Navigation = () => {
-  const userConnected = useSelector((state) => state.user.connected)
+  const user = useSelector((state) => state.user)
   const dispatch = useDispatch()
   const handleDisconnect =()=>{
     dispatch(logout())
@@ -13,7 +13,7 @@ const Navigation = () => {
   }
   return (
     <div>
-      {userConnected
+      {user.connected
         ? <nav className="main-nav">
             <NavLink className="main-nav-logo" exact to="/">
               <img
@@ -23,10 +23,10 @@ const Navigation = () => {
               />
               <h1 className="sr-only">Argent Bank</h1>
             </NavLink>
-            <div>
+            <div className='main-nav-user'>
               <NavLink className="main-nav-item" to="/user">
                 <i className="fa fa-user-circle" />
-                
+                <p>{user.info.firstName}</p>
               </NavLink>
               <NavLink
                 className="main-nav-item"
@@ -47,7 +47,7 @@ const Navigation = () => {
               />
               <h1 className="sr-only">Argent Bank</h1>
             </NavLink>
-            <div>
+            <div className='main-nav-user'>
               <NavLink className="main-nav-item" exact to="/signin">
                 <i className="fa fa-user-circle" />
                 Sign In

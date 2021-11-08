@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login} from '../slices/userSlice'
+import { toast } from 'react-toastify';
 import { findProfileUser, logUser } from '../providers/userProvider';
 import { useHistory } from "react-router-dom";
 import { Redirect } from 'react-router';
@@ -9,15 +10,9 @@ const SectionSignIn = (props) => {
   let history = useHistory()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const dispatch = useDispatch()
   
   
-  useEffect(()=>{
-    setError('')
-  },[email,password])
-  
- 
   if(userConnected){
     return <Redirect to='/'/>
   }
@@ -26,24 +21,23 @@ const SectionSignIn = (props) => {
     e.preventDefault();
     if (email && password) {
       const responseLogUser = await logUser(email, password)
-      // console.log(responseLogUser);
-      const token = responseLogUser.body.token
+      console.log(responseLogUser);
       if(responseLogUser.status!== 200){
-        setError(`L'utilisateur ${email} n'éxiste pas`)
+        toast.warning(`L'utilisateur ${email} n'éxiste pas`)
       }else{
-        (async () => {
-          const profileUser = await findProfileUser(token);
-          dispatch(login({
-              token,
-              info: profileUser.body
-          }))
-        })();
+        const token = responseLogUser.body.token;
+        const profileUser = await findProfileUser(token);
+        dispatch(login({
+          token,
+          info: profileUser.body
+        }))
         sessionStorage.setItem('userToken', token)
         history.push("/user");
+        toast.success(`Connexion effectuée avec succès`)
       }
     }
     else{
-      setError('Champs vide')
+      toast.warning(`Champs vide`)
     }
   };
 
@@ -56,7 +50,6 @@ const SectionSignIn = (props) => {
           <div className="input-wrapper">
             <label htmlFor="email">email</label>
             <input
-              style={{backgroundColor: error ? 'red' : ''}}
               type="text"
               id="email"
               onChange={e => setEmail (e.target.value)}
@@ -75,7 +68,7 @@ const SectionSignIn = (props) => {
             <label htmlFor="remember-me">Remember me</label>
           </div>
           <button className="sign-in-button" onClick={(handleForm)}>Sign In</button>
-          {error && <div>{error}</div>}
+          {/* {error && <div>{error}</div>} */}
         </form>
       </section>
     </main>

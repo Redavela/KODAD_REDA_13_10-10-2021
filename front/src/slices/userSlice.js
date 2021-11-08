@@ -17,10 +17,13 @@ export const userSlice = createSlice({
       state.connected = false
       state.token = null
       state.info = {}
+    },
+    update:(state, info) => {
+      state.info = info.payload
     }
   },
 })
 
-export const { login, logout } = userSlice.actions
+export const { login, logout, update } = userSlice.actions
 
 export default userSlice.reducer
