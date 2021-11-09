@@ -9,16 +9,16 @@ info:
 host: "localhost:3001"
 basePath: "/api/v1"
 tags:
-- name: "User Transactions"
-  description: "Everything about your Transactions"
+- name: "User Accounts"
+  description: "Everything about your Accounts"
 schemes:
 - "http"
 paths:
-  /user/transactions:
+  /user/accounts:
     get:
       tags:
-      - "User Transactions"
-      summary: "Finds Transactions for User"
+      - "User Accounts"
+      summary: "Finds Accounts for User"
       description: "R.a.S"
       produces:
       - "application/json"
@@ -30,14 +30,204 @@ paths:
         type: "string"
       responses:
         "200":
-          description: "User Transaction retrieved successully"
+          description: "User Account retrieved successully"
+          schema:
+            $ref: "#/definitions/Accounts"
+        "400":
+          description: "Invalid Fields"
+        "500":
+          description: "Internal Server Error"
+  /user/accounts/{accountId}/transactions:
+    get:
+      tags:
+      - "User Accounts"
+      summary: "Return transaction of a single account"
+      description: "R.a.S"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Authorisation"
+        in: "header"
+        description: "Status values that need to be considered for filter"
+        required: true
+        type: "string"
+      - name: "accountId"
+        in: "path"
+        type: "integer"
+        required: true
+        description: "Numeric ID of the user to get"
+      responses:
+        "200":
+          description: "User Account retrieved successully"
           schema:
             $ref: "#/definitions/Transactions"
         "400":
           description: "Invalid Fields"
         "500":
           description: "Internal Server Error"
+    post:
+      tags:
+      - "User Accounts"
+      summary: "Post a transaction"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Authorisation"
+        in: "header"
+        description: "Status values that need to be considered for filter"
+        required: true
+        type: "string"
+      - name: "accountId"
+        in: "path"
+        type: "integer"
+        required: true
+        description: "Numeric ID of the user to get"
+      - in: "body"
+        name: "body"
+        description: "Created transaction"
+        required: true
+        schema:
+          $ref: "#/definitions/PostTransaction"
+      responses:
+        "200":
+          description: "Transaction retrieved successully"
+          schema:
+            $ref: "#/definitions/Transaction"
+        "405":
+          description: "Invalid input"
+  /user/accounts/{accountId}/transactions/{transactionId}:
+    get:
+      tags:
+      - "User Accounts"
+      summary: "Return a single transaction"
+      description: "R.a.S"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Authorisation"
+        in: "header"
+        description: "Status values that need to be considered for filter"
+        required: true
+        type: "string"
+      - name: "accountId"
+        in: "path"
+        type: "integer"
+        required: true
+        description: "Numeric ID of the user to get"
+      - name: "transactionId"
+        in: "path"
+        type: "integer"
+        required: true
+        description: "Numeric ID of the transaction to get"
+      responses:
+        "200":
+          description: "User Account retrieved successully"
+          schema:
+            $ref: "#/definitions/SingleTransaction"
+        "400":
+          description: "Invalid Fields"
+        "500":
+          description: "Internal Server Error"
+    put:
+      tags:
+      - "User Accounts"
+      summary: "Updated transaction"
+      description: "This can only be done by the logged in user."
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Authorisation"
+        in: "header"
+        description: "Status values that need to be considered for filter"
+        required: true
+        type: "string"
+      - name: "accountId"
+        in: "path"
+        type: "integer"
+        required: true
+        description: "Numeric ID of the user to get"
+      - in: "body"
+        name: "body"
+        description: "Created transaction"
+        required: true
+        schema:
+          $ref: "#/definitions/PostTransaction"
+      - name: "transactionId"
+        in: "path"
+        type: "integer"
+        required: true
+        description: "Numeric ID of the user to get"
+      responses:
+        "200":
+          description: "User Account retrieved successully"
+          schema:
+            $ref: "#/definitions/SingleTransaction"
+        "400":
+          description: "Invalid Id supplied"
+        "404":
+          description: "Id not found"
+    delete:
+      tags:
+      - "User Accounts"
+      summary: "Delete transaction"
+      description: "This can only be done by the logged in user."
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Authorisation"
+        in: "header"
+        description: "Status values that need to be considered for filter"
+        required: true
+        type: "string"
+      - name: "accountId"
+        in: "path"
+        type: "integer"
+        required: true
+        description: "Numeric ID of the user to get"
+      - name: "transactionId"
+        in: "path"
+        type: "integer"
+        required: true
+        description: "Numeric ID of the user to get"
+      responses:
+        "200":
+          description: "succesly deleted"
+        "400":
+          description: "Invalid Id supplied"
+        "404":
+          description: "Id not found"
 definitions:
+  Accounts:
+    type: "object"
+    properties:
+      statut:
+        type: "integer"
+      message:
+        type: "string"
+      body:
+        type: "array"
+        items:
+          $ref: "#/definitions/Account"
+  Account:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      balance:
+        type: "number"
+      createdAt:
+        type: "string"
+        format: "date-time"
+      updatedAt:
+        type: "string"
+        format: "date-time"
   Transactions:
     type: "object"
     properties:
@@ -54,10 +244,71 @@ definitions:
     properties:
       id:
         type: "string"
+      description:
+        type: "string"
+      amount:
+        type: "number"
+      balance:
+        type: "number"
+      notes:
+        type: "string"
+      type:
+        $ref: "#/definitions/Transaction_type"
+      category:
+        $ref: "#/definitions/Transaction_category"
       createdAt:
         type: "string"
         format: "date-time"
       updatedAt:
         type: "string"
         format: "date-time"
-          
+  Transaction_type:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      createdAt:
+        type: "string"
+        format: "date-time"
+      updatedAt:
+        type: "string"
+        format: "date-time"
+  Transaction_category:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      createdAt:
+        type: "string"
+        format: "date-time"
+      updatedAt:
+        type: "string"
+        format: "date-time"
+  SingleTransaction:
+    type: "object"
+    properties:
+      statut:
+        type: "integer"
+      message:
+        type: "string"
+      body:
+        $ref: "#/definitions/Transaction"  
+  PostTransaction:
+    type: "object"
+    properties:
+      description:
+        type: "string"
+      amount:
+        type: "number"
+      balance:
+        type: "number"
+      notes:
+        type: "string"
+      type:
+        type: "string"
+      category:
+        type: "string"
