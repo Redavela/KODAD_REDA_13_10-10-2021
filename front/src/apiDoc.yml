@@ -1,0 +1,63 @@
+swagger: "2.0"
+info:
+  description: "Contains all available API endpoints in this codebase"
+  version: "1.0.0"
+  title: "Bank Argent API documentation"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "kodadreda@yahoo.fr"
+host: "localhost:3001"
+basePath: "/api/v1"
+tags:
+- name: "User Transactions"
+  description: "Everything about your Transactions"
+schemes:
+- "http"
+paths:
+  /user/transactions:
+    get:
+      tags:
+      - "User Transactions"
+      summary: "Finds Transactions for User"
+      description: "R.a.S"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Authorisation"
+        in: "header"
+        description: "Status values that need to be considered for filter"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "User Transaction retrieved successully"
+          schema:
+            $ref: "#/definitions/Transactions"
+        "400":
+          description: "Invalid Fields"
+        "500":
+          description: "Internal Server Error"
+definitions:
+  Transactions:
+    type: "object"
+    properties:
+      statut:
+        type: "integer"
+      message:
+        type: "string"
+      body:
+        type: "array"
+        items:
+          $ref: "#/definitions/Transaction"
+  Transaction:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      createdAt:
+        type: "string"
+        format: "date-time"
+      updatedAt:
+        type: "string"
+        format: "date-time"
+          
