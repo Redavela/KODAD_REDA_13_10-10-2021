@@ -33,8 +33,8 @@ const SectionDashboard = ()=> {
     <main className="main bg-dark">
       <div className="header">
         <h1>Welcome back<br />{firstName} {lastName}</h1>
-        <input type='text' className='input-user' placeholder={firstName} onChange={(e)=>setFirstName(e.target.value)}/>
-        <input type='text' className='input-user' placeholder={lastName} onChange={(e)=>setLastName(e.target.value)}/>
+        <input type='text' className='input-user' value={firstName} onChange={(e)=>setFirstName(e.target.value)}/>
+        <input type='text' className='input-user' value={lastName} onChange={(e)=>setLastName(e.target.value)}/>
         <div className='section-button'>
         <button className="save edit-button" onClick={handleUpdateUser}>Save</button>
         <button className="cancel edit-button" onClick={handleCancel}>Cancel</button>
