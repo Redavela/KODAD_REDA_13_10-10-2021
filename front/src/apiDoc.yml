@@ -19,7 +19,7 @@ paths:
       tags:
       - "User Accounts"
       summary: "Finds Accounts for User"
-      description: "R.a.S"
+      description: "return user's accounts"
       produces:
       - "application/json"
       parameters:
@@ -41,8 +41,8 @@ paths:
     get:
       tags:
       - "User Accounts"
-      summary: "Return transaction of a single account"
-      description: "R.a.S"
+      summary: "Return transactions of a single account"
+      description: "All the transactions of the account"
       produces:
       - "application/json"
       parameters:
@@ -69,7 +69,7 @@ paths:
       tags:
       - "User Accounts"
       summary: "Post a transaction"
-      description: ""
+      description: "This can only be done by the logged in user."
       consumes:
       - "application/json"
       produces:
@@ -103,7 +103,7 @@ paths:
       tags:
       - "User Accounts"
       summary: "Return a single transaction"
-      description: "R.a.S"
+      description: "get information of a single transaction"
       produces:
       - "application/json"
       parameters:
